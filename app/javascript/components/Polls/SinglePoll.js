@@ -7,12 +7,12 @@ function SinglePoll(props) {
   const [data, setData] = useState(null);
 
   var url = `http://localhost:3000/polls/${poll.id}/votes`;
-  const handleClick = async (event) => {
-    var optionVal = await event.target.className.split(" ")[1];
+  const handleClick = (event) => {
+    var optionValue = event.target.className.split(" ")[1];
     setError("");
-    API.postNewTask({ option: optionVal }, url, "POST")
-      .then(async (vote) => {
-        await setData(vote)
+    API.postNewTask({ option: optionValue }, url, "POST")
+      .then((vote) => {
+        setData(vote)
       })
       .catch((error) => {
         error.json().then(({ error }) => {
@@ -53,6 +53,7 @@ function SinglePoll(props) {
           </button>
         </li>
       </ul>
+      {error && window.alert(error)}
       {votes ? (
         <ul>
           <li>
@@ -68,7 +69,7 @@ function SinglePoll(props) {
             {`${votes.option4} votes `}
           </li>
         </ul>
-      ) : <h3>{error}</h3>}
+      ) : null}
     </div>
   );
 }
